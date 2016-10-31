@@ -3,7 +3,6 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var multer = require('multer')();
 var cors = require('cors');
 var root = require('./routes/index');
 var students = require('./routes/students');
@@ -18,7 +17,6 @@ app.use(logger('dev'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(multer.array());
 
 app.use(cookieParser());
 

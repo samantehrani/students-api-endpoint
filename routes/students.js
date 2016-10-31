@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db');
+var multer = require('multer')({ dest: 'uploads/' });
 
-router.post('/', function(req, res, next) {
+router.post('/', multer.single('profile-picture'), function(req, res, next) {
     console.log('here');
     console.log(req.body);
     let newStudent = {
