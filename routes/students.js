@@ -1,11 +1,11 @@
+var fs = require('fs');
 var express = require('express');
 var router = express.Router();
 var db = require('../db');
 var multer = require('multer')({ dest: 'uploads/' });
 
 router.post('/', multer.single('profile-picture'), function(req, res, next) {
-    console.log('here');
-    console.log(req.body);
+
     let newStudent = {
         first_name: req.body.first_name || '',
         last_name: req.body.last_name || '',
@@ -20,9 +20,26 @@ router.post('/', multer.single('profile-picture'), function(req, res, next) {
             return links;
         })(req.body.url)
     };
+    if (req.file) {
+        let date = new Date();
+        let temp_dir = `/${req.file.path}`;
+        let dest_dir = `/public/images/${date.getTime()}_${req.file.originalname}`;
+        fs.rename(`.${temp_dir}`, `.${dest_dir}`, function(err) {
+            if (err) {
+                console.log(err);
+                console.log('FILE NOT MOVED!');
+                db.addStudent(newStudent); // add the student info without picture info
+            } else {
+                newStudent.profile_picture = dest_dir; // add picture path
+                db.addStudent(newStudent);
+            }
 
-    db.addStudent(newStudent);
-    res.json('success');
+        });
+    } else {
+        db.addStudent(newStudent); // add the student info without picture info
+    }
+
+    res.json('Information Updated!');
 });
 router.get('/', function(req, res, next) {
     let list = db.getAllStudents();
