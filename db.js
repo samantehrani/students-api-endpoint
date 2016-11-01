@@ -8,7 +8,7 @@ let fs = require('fs');
 let db = {
     getStudent: (id) => {
         for (let student of students) {
-            if (student.id === id) {
+            if (student.id == id) {
                 let res = Object.assign({}, student); // cloning the student object
                 delete res.full_bio; // removing the full bio
                 return res;
@@ -22,7 +22,7 @@ let db = {
     },
     getStudentBio: (id) => {
         for (let student of students) {
-            if (student.id === id) {
+            if (student.id == id) {
                 return { id: student.id, full_bio: student.full_bio, excerpt: student.excerpt };
             }
         }
@@ -31,7 +31,7 @@ let db = {
     addStudent: (student) => {
         student.id = students.length;
         students.push(student);
-        
+
         //writing the changes back to file
         db.updateFile();
     },

@@ -20,7 +20,8 @@ app.use(bodyParser.json());
 
 app.use(cookieParser());
 
-//app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/public',express.static(path.join(__dirname, 'public')));
 
 app.use('/', root); // use root Router for root requests
 app.use('/students', students); // // use students Router for students requests
