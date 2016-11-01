@@ -13,8 +13,10 @@ router.post('/', multer.single('profile-picture'), function(req, res, next) {
         excerpt: req.body.excerpt || '',
         full_bio: req.body.full_bio || '',
         links: ((urls) => {
+            if (!Array.isArray(urls))
+                urls = [urls];
             let links = [];
-            for (url of urls) {
+            for (let url of urls) {
                 links.push({ url: url, name: '', id: links.length });
             }
             return links;
